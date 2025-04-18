@@ -17,6 +17,15 @@ export class EnvConfig {
 	}
 
 	/**
+	 * Проверяет env переменные и возвращает boolean
+	 */
+	public checkAndBool(): boolean {
+		const empty = this.check();
+
+		return !!(empty.length > 0);
+	}
+
+	/**
 	 * Проверяет env переменные и выбрасывает ошибку, если каких-то нет
 	 */
 	public checkAndThrow(): void {

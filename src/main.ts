@@ -18,11 +18,13 @@ const {
 });
 
 async function bootstrap() {
+	// Проверяем переменные
 	const envConfig = new EnvConfig();
 	envConfig.checkAndThrow();
 
 	const app = await NestFactory.create(AppModule);
 
+	// Swagger
 	const config = new DocumentBuilder()
 		.setTitle("NestJS Template")
 		.setDescription("The NestJS Template API description")
@@ -31,6 +33,7 @@ async function bootstrap() {
 		.build();
 	const documentFactory = () => SwaggerModule.createDocument(app, config);
 
+	// Scalar
 	app.use(
 		"/reference",
 		apiReference({
@@ -43,6 +46,7 @@ async function bootstrap() {
 		credentials: true,
 	});
 
+	// Middlewares
 	app.use(
 		session({
 			secret: process.env.SESSION_SECRET!,
@@ -58,4 +62,5 @@ async function bootstrap() {
 
 	await app.listen(process.env.PORT!);
 }
+
 void bootstrap();
