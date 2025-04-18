@@ -26,7 +26,7 @@ async function bootstrap() {
 	const config = new DocumentBuilder()
 		.setTitle("NestJS Template")
 		.setDescription("The NestJS Template API description")
-		.setVersion(version as string)
+		.setVersion(version)
 		.addTag("nestjs-template")
 		.build();
 	const documentFactory = () => SwaggerModule.createDocument(app, config);
@@ -56,6 +56,6 @@ async function bootstrap() {
 	app.use(helmet());
 	app.use(doubleCsrfProtection);
 
-	await app.listen(process.env.PORT ?? 3000);
+	await app.listen(process.env.PORT!);
 }
 void bootstrap();
