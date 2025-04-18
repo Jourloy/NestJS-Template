@@ -9,6 +9,7 @@ import helmet from "helmet";
 import {doubleCsrf} from "csrf-csrf";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {apiReference} from "@scalar/nestjs-api-reference";
+import {EnvConfig} from "./config/env";
 
 const {
 	doubleCsrfProtection, // This is the default CSRF protection middleware.
@@ -17,9 +18,8 @@ const {
 });
 
 async function bootstrap() {
-	if (!process.env.SESSION_SECRET) {
-		throw new Error("SESSION_SECRET is not defined");
-	}
+	const envConfig = new EnvConfig();
+	envConfig.checkAndThrow();
 
 	const app = await NestFactory.create(AppModule);
 
@@ -45,7 +45,7 @@ async function bootstrap() {
 
 	app.use(
 		session({
-			secret: process.env.SESSION_SECRET,
+			secret: process.env.SESSION_SECRET!,
 			resave: false,
 			saveUninitialized: false,
 		})
